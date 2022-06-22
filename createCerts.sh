@@ -1,5 +1,5 @@
-#! /bin/bash
-
+#!/usr/bin/env bash
+# Author: Abhijit Wakchaure <awakchau@tibco.com>
 if [[ ! -z "$1" && $1 == "destroy" ]]
 then 
   echo -e '\n*******  Deletings certs dir   *******\n'
