@@ -21,6 +21,14 @@ ORGUNIT="Connectors"
 COMMONNAMEFQDN=$DOMAINNAME
 EMAIL="awakchau@tibco.com"
 
+# File names
+ROOT_CA_KEY="rootCA.key.pem"
+ROOT_CA_CRT="rootCA.crt.pem"
+SERVER_KEY="server.key.pem"
+SERVER_CRT="server.crt.pem"
+CLIENT_KEY="client.key.pem"
+CLIENT_CRT="client.crt.pem"
+
 cat <<EOF >server.csr.cnf
 [req]
 default_bits = 2048
@@ -69,10 +77,10 @@ EOF
 
 
 echo -e '\n*******  STEP 1/10: Creating private key for root CA  *******\n'
-openssl genrsa -out rootCA.key 2048
+openssl genrsa -out $ROOT_CA_KEY 2048
 
 echo -e '\n*******  STEP 2/10: Creating root CA certificate  *******\n'
-cat <<__EOF__ | openssl req -new -x509 -nodes -days 1024 -key rootCA.key -sha256 -out rootCA.pem
+cat <<__EOF__ | openssl req -new -x509 -nodes -days 1024 -key $ROOT_CA_KEY -sha256 -out $ROOT_CA_CRT
 $COUNTRY
 $STATE
 $LOCALITY
@@ -83,27 +91,27 @@ admin@rootca.$DOMAINNAME
 __EOF__
 
 echo -e '\n*******  STEP 3/10: Creating private key for server  *******\n'
-openssl genrsa -out server.key 2048
+openssl genrsa -out $SERVER_KEY 2048
 
 echo -e '\n*******  STEP 4/10: Creating CSR for server  *******\n'
-openssl req -new -key server.key -out server.csr -config <(cat server.csr.cnf)
+openssl req -new -key $SERVER_KEY -out server.csr -config <(cat server.csr.cnf)
 
 echo -e '\n*******  STEP 5/10: Creating server certificate  *******\n'
-openssl x509 -req -in server.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out server.pem -days 1024 -sha256 -extfile server.ext
+openssl x509 -req -in server.csr -CA $ROOT_CA_CRT -CAkey $ROOT_CA_KEY -CAcreateserial -out $SERVER_CRT -days 1024 -sha256 -extfile server.ext
 
 echo -e '\n*******  STEP 6/10: Creating private key for client  *******\n'
-openssl genrsa -out client.key 2048
+openssl genrsa -out $CLIENT_KEY 2048
 
 echo -e '\n*******  STEP 7/10: Creating CSR for client  *******\n'
-openssl req -new -key client.key -out client.csr -config <(cat client.csr.cnf)
+openssl req -new -key $CLIENT_KEY -out client.csr -config <(cat client.csr.cnf)
 
 echo -e '\n*******  STEP 8/10: Creating client certificate  *******\n'
-openssl x509 -req -in client.csr -CA rootCA.pem -CAkey rootCA.key -CAcreateserial -out client.pem -days 1024 -sha256
+openssl x509 -req -in client.csr -CA $ROOT_CA_CRT -CAkey $ROOT_CA_KEY -CAcreateserial -out $CLIENT_CRT -days 1024 -sha256
 
 # echo -e '\n*******  STEP 9/10: Converting all keys in PKCS1 format for backward compatibility  *******\n'
-# openssl rsa -in rootCA.key -out rootCA.pkcs1.key
-# openssl rsa -in server.key -out server.pkcs1.key
-# openssl rsa -in client.key -out client.pkcs1.key
+# openssl rsa -in $ROOT_CA_KEY -out rootCA.pkcs1.key
+# openssl rsa -in $SERVER_KEY -out server.pkcs1.key
+# openssl rsa -in $CLIENT_KEY -out client.pkcs1.key
 
 echo -e '\n*******  STEP 10/10: Deleting extra files  *******\n'
 rm -f *.csr *.ext *.srl *.cnf

@@ -14,7 +14,6 @@ services:
     #   "--ssl-ca=/etc/certs/rootCA.pem",
     #   "--ssl-cert=/etc/certs/server.crt",
     #   "--ssl-key=/etc/certs/server.pkcs1.key",
-    #   "--default_authentication_plugin=mysql_native_password"
     # ]
     security_opt:
       - no-new-privileges:true

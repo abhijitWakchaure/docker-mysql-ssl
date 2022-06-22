@@ -1,5 +1,5 @@
 [mysqld]
-bind-address       = 0.0.0.0
-ssl-ca=/etc/mysql/certs/rootCA.pem
-ssl-cert=/etc/mysql/certs/server.crt
-ssl-key=/etc/mysql/certs/server.key
+ssl_ca=/etc/mysql/certs/rootCA.crt.pem
+ssl_cert=/etc/mysql/certs/server.crt.pem
+ssl_key=/etc/mysql/certs/server.key.pem
+require_secure_transport=ON
