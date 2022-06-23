@@ -15,11 +15,10 @@ read -p 'Enter Domain Name [FQDN]: ' DOMAINNAME
 # Constants
 COUNTRY="IN"
 STATE="MH"
-LOCALITY="Pune" 
+LOCALITY="Pune"
 ORGNAME="TIBCO"
 ORGUNIT="Connectors"
 COMMONNAMEFQDN=$DOMAINNAME
-EMAIL="awakchau@tibco.com"
 
 # File names
 ROOT_CA_KEY="rootCA.key.pem"
