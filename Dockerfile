@@ -1,7 +1,11 @@
 FROM mysql:5.7
 
-ADD ./certs /etc/mysql/certs
+ENV CERTS_ROOT /etc/mysql
+
+ADD ./createCerts.sh ${CERTS_ROOT}
 ADD ./users.sql /docker-entrypoint-initdb.d/users.sql
 
-RUN chown -R mysql:mysql /etc/mysql/certs
+RUN /bin/bash -c "/etc/mysql/createCerts.sh"
+
+RUN chown -R mysql:mysql ${CERTS_ROOT}
 RUN chown -R mysql:mysql /docker-entrypoint-initdb.d

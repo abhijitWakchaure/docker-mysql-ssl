@@ -1,16 +1,37 @@
 #!/usr/bin/env bash
 # Author: Abhijit Wakchaure <awakchau@tibco.com>
-if [[ ! -z "$1" && $1 == "destroy" ]]
-then 
-  echo -e '\n*******  Deletings certs dir   *******\n'
-  rm -f ./certs
-  exit 0
+
+# arg1: error message
+# [arg2]: exit code
+function exit_with_error {
+    printf '\n%s\n' "$1" >&2 ## Send message to stderr.
+    exit "${2-1}" ## Return a code specified by $2, or 1 by default.
+}
+
+if [ -z "$CERTS_ROOT" ]; then
+  exit_with_error "Env var CERTS_ROOT is undefined"
 fi
 
+cd $CERTS_ROOT
 rm -rf certs
 mkdir -p certs
 pushd certs
-read -p 'Enter Domain Name [FQDN]: ' DOMAINNAME
+
+# Check if curl is installed
+if ! [ -x "$(command -v curl)" ]; then
+  echo 'cURL is not installed...installing cURL now'
+  apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+fi
+
+# Get hostname from EC2 Instance Metadata Service
+DOMAINNAME=$(curl -s http://169.254.169.254/latest/meta-data/public-hostname)
+
+if [ -z "$DOMAINNAME" ]; then
+  # read -p 'Enter Domain Name [FQDN]: ' DOMAINNAME
+  exit_with_error "Failed to get hostname/FQDN from EC2 Instance Metadata Service"
+else
+  echo "Autodected FQDN for EC2: ${DOMAINNAME}"
+fi
 
 # Constants
 COUNTRY="IN"

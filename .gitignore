@@ -1,1 +1,3 @@
 certs/**
+mysql-ssl*
+remote-certs/**
