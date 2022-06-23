@@ -12,6 +12,12 @@ if [ -z "$CERTS_ROOT" ]; then
   exit_with_error "Env var CERTS_ROOT is undefined"
 fi
 
+RUNNING_ON_HOST=$(grep 'docker\|lxc' /proc/1/cgroup)
+
+if [ -z "$RUNNING_ON_HOST" ]; then
+  exit_with_error "No need to run this script manually on host machine. Certificates are already generated and used"
+fi
+
 cd $CERTS_ROOT
 rm -rf certs
 mkdir -p certs
