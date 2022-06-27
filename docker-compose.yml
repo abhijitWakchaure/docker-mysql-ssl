@@ -20,6 +20,7 @@ services:
       - ./custom.cnf:/etc/mysql/conf.d/custom.cnf
     ports:
       - 3307:3306
+      - 8080:8000
     environment:
       TZ: "Asia/Kolkata"
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-root}"
