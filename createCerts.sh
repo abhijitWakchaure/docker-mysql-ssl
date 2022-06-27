@@ -29,8 +29,12 @@ if ! [ -x "$(command -v curl)" ]; then
   apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
 fi
 
-# Get hostname from EC2 Instance Metadata Service
-DOMAINNAME=$(curl -s http://169.254.169.254/latest/meta-data/public-hostname)
+if [ "$DEV_MODE" != "true" ]; then
+  # Get hostname from EC2 Instance Metadata Service
+  DOMAINNAME=$(curl -s http://169.254.169.254/latest/meta-data/public-hostname)
+else
+  DOMAINNAME="localhost"
+fi
 
 if [ -z "$DOMAINNAME" ]; then
   # read -p 'Enter Domain Name [FQDN]: ' DOMAINNAME
