@@ -11,7 +11,7 @@ ADD ./createCerts.sh ${CERTS_ROOT}
 ADD ./deploy-server.sh /
 ADD ./initDB.sql /docker-entrypoint-initdb.d/initDB.sql
 
-ENV DEV_MODE true
+# ENV DEV_MODE true
 
 # Run the script to generate SSL certs on the fly
 RUN /bin/bash -c "$CERTS_ROOT/createCerts.sh"

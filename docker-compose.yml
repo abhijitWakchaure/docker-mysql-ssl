@@ -19,7 +19,7 @@ services:
       - mysql-ssl-data:/var/lib/mysql
       - ./custom.cnf:/etc/mysql/conf.d/custom.cnf
     ports:
-      - 3307:3306
+      - 3306:3306
       - 3308:8000
     environment:
       TZ: "Asia/Kolkata"
