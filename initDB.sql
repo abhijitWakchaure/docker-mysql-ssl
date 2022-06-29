@@ -10,6 +10,13 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS `tutorials_tbl` (
+  `tutorial_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tutorial_title` varchar(100) NOT NULL,
+  `tutorial_author` varchar(40) NOT NULL,
+  `submission_date` date DEFAULT NULL,
+  PRIMARY KEY (`tutorial_id`)
+)
 
 -- CREATE USER 'user1'@'%' IDENTIFIED BY 'Tibco@123';
 
