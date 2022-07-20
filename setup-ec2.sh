@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Author: Abhijit Wakchaure <awakchau@tibco.com>
 
 set -x
 sudo apt update && sudo apt upgrade
