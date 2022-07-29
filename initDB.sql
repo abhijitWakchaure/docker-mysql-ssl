@@ -18,14 +18,14 @@ CREATE TABLE IF NOT EXISTS `tutorials_tbl` (
   PRIMARY KEY (`tutorial_id`)
 )
 
--- CREATE USER 'user1'@'%' IDENTIFIED BY 'Tibco@123';
+-- CREATE USER 'user1'@'%' IDENTIFIED BY 'Password@123';
 
 -- GRANT ALL PRIVILEGES ON *.* TO 'user1'@'%' WITH GRANT OPTION;
 
 
-CREATE USER 'onewayssl'@'%' IDENTIFIED by 'Tibco@123' REQUIRE SSL;
+CREATE USER 'onewayssl'@'%' IDENTIFIED by 'Password@123' REQUIRE SSL;
 GRANT ALL PRIVILEGES on *.* TO 'onewayssl'@'%';
 
 
-CREATE USER 'twowayssl'@'%' IDENTIFIED BY 'Tibco@123' REQUIRE X509;
+CREATE USER 'twowayssl'@'%' IDENTIFIED BY 'Password@123' REQUIRE X509;
 GRANT ALL PRIVILEGES on *.* TO 'twowayssl'@'%';
